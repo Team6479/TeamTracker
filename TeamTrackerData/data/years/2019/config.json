@@ -1,0 +1,20 @@
+{
+    "displays": {
+        "graph": [
+            {
+                "tableColumn": "B",
+                "title": "Cargo ship - Cargo",
+                "action": "mean"
+            }
+        ],
+        "list": {},
+        "table": {},
+        "filter": [
+            {
+                "tableColumn": "B",
+                "title": "CS Cargo",
+                "action": "mean"
+            }
+        ]
+    }
+}
