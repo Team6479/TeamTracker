@@ -79,10 +79,13 @@ export interface EventConfig {
 }
 
 export interface Team {
-  graph: Array<GraphDisplay>;
-  list: Array<ListDisplay>;
-  table: Array<TableDisplay>;
-  [key: string]: Array<any>; // Make this interface indexable
+  name: string;
+  displays: {
+    graph: Array<GraphDisplay>;
+    list: Array<ListDisplay>;
+    table: Array<TableDisplay>;
+    [key: string]: Array<any>; // Make this interface indexable
+  }
 }
 
 export interface Teams {

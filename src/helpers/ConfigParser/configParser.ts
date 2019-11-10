@@ -100,7 +100,7 @@ async function getGoogleSheet(eventConfig: EventConfig): Promise<DataSheet> {
 //   }
 // }
 
-export async function getTeams(): Promise<Teams> {
+export async function getParsedState(elements: Elements, teams: Teams): Promise<[Elements, Teams]> {
   let commit = await getLatestCommit();
   let rawgitInstance = getRawgitInstance(commit);
   let mainConfig = await getMainConfig(rawgitInstance);
@@ -110,12 +110,11 @@ export async function getTeams(): Promise<Teams> {
   let [yearConfig, teamsResponse, actionIndex, sheet] = await Promise.all([
     getYearConfig(rawgitInstance, mainConfig),
     blueallianceInstance.get<Array<any>>('teams/simple'),
+    // blueallianceInstance.get<Array<any>>('rankings').then(),
+    // blueallianceInstance.get<Array<any>>('oprs'),
     injectActionScript(commit, mainConfig),
     getGoogleSheet(eventConfigPromise)
   ])
-
-  var elements: Elements = {};
-  var teams: Teams = {};
 
   for (let team of teamsResponse.data) {
     let teamNum = team.team_number;
@@ -130,16 +129,21 @@ export async function getTeams(): Promise<Teams> {
     }
 
     let data: Team = {
-      graph: new Array<GraphDisplay>(),
-      list: new Array<ListDisplay>(),
-      table: new Array<TableDisplay>(),
+      name: "",
+      displays: {
+        graph: new Array<GraphDisplay>(),
+        list: new Array<ListDisplay>(),
+        table: new Array<TableDisplay>(),
+      }
     }
+
+    data.name = team.nickname;
 
     // We do this as filter needs to be handled differently
     let displays = Object.keys(yearConfig.displays).filter((value) => value !== "filter");
     for (let display of displays) {
       for (let element of yearConfig.displays[display]) {
-        data[display].push({
+        data.displays[display].push({
           title: element.title,
           _value: new IdReference(elements, element.id, teamNum),
           get value() {
@@ -152,5 +156,5 @@ export async function getTeams(): Promise<Teams> {
     teams[teamNum] = data;
   }
 
-  return teams;
+  return [elements, teams];
 }

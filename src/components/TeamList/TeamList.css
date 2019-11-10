@@ -1,0 +1,16 @@
+.list {
+  list-style-type: none;
+  padding: 15px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex: 1;
+  order: 2;
+}
+
+.no-results {
+  width: 100%;
+  text-align: center;
+}

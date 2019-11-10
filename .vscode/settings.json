@@ -2,5 +2,8 @@
     "typescript.tsdk": "node_modules/typescript/lib",
     "files.exclude": {
         "**/node_modules": true,
-    }
+    },
+    "todo-tree.filtering.excludeGlobs": [
+      "**/node_modules"
+    ]
 }
