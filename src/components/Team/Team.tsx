@@ -14,21 +14,19 @@ export const Team: React.FC<RouteComponentProps<TeamProps>> = (props): JSX.Eleme
   function renderTeam(teams: Teams) {
     const team = teams[teamNum]
     var list = [];
-    for (const display of team.displays.graph) {
-      list.push((<p><h3 key={display.title}>{`${display.title}: ${display.value}`}</h3></p>))
+    for (const display of team.displays.list) {
+      list.push((<h3 key={display.title}>{`${display.title}: ${display.value}`}</h3>))
     }
 
     return (
-        <div>
-          <p>
-            <h1 style={{ fontWeight: 1000 }}>{`${teamNum} - ${team.name}`}</h1>
-          </p>
-          {list}
-        </div>
+      <div>
+        <h1 style={{ fontWeight: 1000 }}>{`${teamNum} - ${team.name}`}</h1>
+        {list}
+      </div>
     )
   }
 
-  return(
+  return (
     <div className="Team" style={{borderRadius: '5px'}}>
       <TeamsContext.Consumer>
         {(teams) => renderTeam(teams)}
