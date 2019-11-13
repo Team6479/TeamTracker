@@ -20,10 +20,17 @@ export class ActionIndex {
   }
 
   getAction(action: string): Function {
-    return this.actions[action]
+    if (action ===  null) {
+      return action;
+    }
+    return this.actions[action];
   }
 
-  runAction<T>(action: string, table: DataSheet, tableColumn: number, team: number, type: string): T {
-    return this.getAction(action)(table.getEntriesFromColumn(tableColumn, team, type));
+  runAction<T>(action: string, table: DataSheet, tableColumn: number, team: number, type: string): T | T[] {
+    let entries = table.getEntriesFromColumn<T>(tableColumn, team, type);
+    if (action === null) {
+      return entries;
+    }
+    return this.getAction(action)(entries);
   }
 }
