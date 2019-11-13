@@ -9,10 +9,10 @@ export class TeamList extends React.Component {
   static contextType = TeamsContext;
 
   renderTeams() {
-    let context: Teams = this.context;
+    let context: Teams = this.context;  // Bring us away from any type as soon as possible
     let teams = [];
     for (const teamNum of Object.keys(context)) {
-      teams.push((<div key={teamNum} ><TeamPreviw teamNum={parseInt(teamNum)} /></div>))
+      teams.push((<div key={teamNum}><TeamPreviw teamNum={parseInt(teamNum)} /></div>))
     }
     if (teams.length > 0) {
       return (

@@ -1,10 +1,6 @@
 import './App.css';
 import React from 'react';
-import {
-  BrowserRouter,
-  Route,
-  Switch,
-} from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import logo from '../../logo.svg'
 import { getParsedState } from '../../helpers/ConfigParser';
 import { Elements, Teams } from '../../helpers/ConfigParser/types';
