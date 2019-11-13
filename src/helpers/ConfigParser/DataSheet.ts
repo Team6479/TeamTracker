@@ -1,28 +1,51 @@
+type TeamEntriesPerColumn = {
+  [team: number]: {
+    [column: number]: {
+      [type: string]: Array<any>
+    }
+  }
+}
+
 export class DataSheet {
   private teamIndexes: {[team: number]: Array<number>} = {};
+  private teamEntriesPerColumn: TeamEntriesPerColumn = {};
 
   constructor(private sheet: Array<Array<any>>) {}
 
   public getEntriesFromColumn<T>(column: number, team: number, type: string): Array<T> {
-    let indexes: Array<number> = this.allIndexesOfTeam(team);
+    try {
+      return this.teamEntriesPerColumn[team][column][type];
+    } catch {
+      let indexes: Array<number> = this.allIndexesOfTeam(team);
 
-    let entries = [];
-    for (let index of indexes) {
-      let entry = this.sheet[column][index];
-      if (entry === "") {
-        switch(type) {
-          case "number":
-            entries.push(0);
-            break;
-          case "string":
-            entries.push(entry);
-            break;
+      let entries = [];
+      for (let index of indexes) {
+        let entry = this.sheet[column][index];
+        if (entry === "") {
+          switch(type) {
+            case "number":
+              entries.push(0);
+              break;
+            default:
+              entries.push(entry);
+              break;
+          }
+        } else {
+          entries.push(entry);
         }
-      } else {
-        entries.push(entry);
       }
+
+      if (this.teamEntriesPerColumn[team] === undefined) {
+        this.teamEntriesPerColumn[team] = {}
+        this.teamEntriesPerColumn[team][column] = {}
+      } else if (this.teamEntriesPerColumn[team][column] === undefined) {
+        this.teamEntriesPerColumn[team][column] = {}
+      }
+
+      this.teamEntriesPerColumn[team][column][type] = entries;
+
+      return entries;
     }
-    return entries;
   }
 
   private allIndexesOfTeam(team: number): Array<number> {
