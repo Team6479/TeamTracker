@@ -1,14 +1,15 @@
+import './TeamFilters.css'
 import React from 'react';
 import { FilterDisplay } from '../../helpers/ConfigParser/types';
 import cloneDeep from 'lodash/cloneDeep'
 import { FilterRange } from '../FilterRange';
 
-interface TeamFilterProps {
+interface TeamFiltersProps {
   filters: Array<FilterDisplay>;
   onChange: Function
 }
 
-export const TeamFilter: React.FC<TeamFilterProps> = (props): JSX.Element => {
+export const TeamFilters: React.FC<TeamFiltersProps> = (props): JSX.Element => {
 
   var onChange = (filter: FilterDisplay, values: Array<number>) => {
     var filters: Array<FilterDisplay> = cloneDeep(props.filters)
@@ -22,10 +23,19 @@ export const TeamFilter: React.FC<TeamFilterProps> = (props): JSX.Element => {
 
   var filterElements = []
   for (const filter of props.filters) {
-    filterElements.push((<FilterRange key={filter.id} filter={filter} onChange={onChange}/>))
+    filterElements.push((
+      <div className="filter-item" key={filter.id}>
+        <h5>{filter.title}</h5>
+        <FilterRange key={filter.id} filter={filter} onChange={onChange}/>
+        <hr/>
+      </div>
+    ))
   }
 
   return (
-    <div>{filterElements}</div>
+    <div className="TeamFilters">
+      <h3>Filters</h3>
+      {filterElements}
+    </div>
   )
 }

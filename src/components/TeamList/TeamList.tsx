@@ -4,7 +4,7 @@ import { PrimaryContext } from '../contexts';
 import { Teams, FilterDisplay, Elements } from '../../helpers/ConfigParser/types';
 import { TeamPreviw } from "../TeamPreview";
 import NotFound from './not-found.gif';
-import { TeamFilter } from '../TeamFilter';
+import { TeamFilters } from '../TeamFilters';
 
 interface TeamListProps {
   filters: Array<FilterDisplay>;
@@ -75,7 +75,7 @@ export class TeamList extends React.Component<TeamListProps, Readonly<TeamListSt
             onChange={e => this.setState({search: e.target.value})}
           />
         </div>
-        <TeamFilter filters={this.state.filters} onChange={(object: Readonly<TeamListState>) => this.setState(object)}/>
+        <TeamFilters filters={this.state.filters} onChange={(object: Readonly<TeamListState>) => this.setState(object)}/>
         {this.renderTeams()}
       </div>
     )
