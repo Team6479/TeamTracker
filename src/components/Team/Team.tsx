@@ -1,8 +1,8 @@
 import './Team.css'
-import React from 'react';
+import React, { useContext } from 'react';
 import { RouteComponentProps} from 'react-router-dom';
-import { Teams } from '../../helpers/ConfigParser/types';
-import { TeamsContext } from '../contexts';
+import { Teams, Elements } from '../../helpers/ConfigParser/types';
+import { PrimaryContext } from '../contexts';
 
 interface TeamProps {
   teamNum: string;
@@ -11,26 +11,18 @@ interface TeamProps {
 export const Team: React.FC<RouteComponentProps<TeamProps>> = (props): JSX.Element => {
   const teamNum = parseInt(props.match.params.teamNum);
 
-  function renderTeam(teams: Teams) {
-    const team = teams[teamNum]
-    var list = [];
-    for (const display of team.displays.list) {
-      list.push((<h3 key={display.title}>{`${display.title}: ${display.value}`}</h3>))
-    }
+  const context: {elements: Elements, teams: Teams} = useContext(PrimaryContext);
+  const team = context.teams[teamNum];
 
-    return (
-      <div>
-        <h1 style={{ fontWeight: 1000 }}>{`${teamNum} - ${team.name}`}</h1>
-        {list}
-      </div>
-    )
+  var list = [];
+  for (const display of team.displays.list) {
+    list.push((<h3 key={display.title}>{`${display.title}: ${display.value}`}</h3>))
   }
 
   return (
     <div className="Team" style={{borderRadius: '5px'}}>
-      <TeamsContext.Consumer>
-        {(teams) => renderTeam(teams)}
-      </TeamsContext.Consumer>
+      <h1 style={{ fontWeight: 1000 }}>{`${teamNum} - ${team.name}`}</h1>
+      {list}
     </div>
   )
 }

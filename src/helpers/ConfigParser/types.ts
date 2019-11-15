@@ -30,6 +30,8 @@ export interface FilterDisplay {
   id: string;
   min: number;
   max: number;
+  localMin: number;
+  localMax: number;
 }
 
 export interface Elements {

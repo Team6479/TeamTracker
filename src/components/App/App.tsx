@@ -3,16 +3,17 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import logo from '../../logo.svg'
 import { getParsedState } from '../../helpers/ConfigParser';
-import { Elements, Teams } from '../../helpers/ConfigParser/types';
+import { Elements, Teams, FilterDisplay } from '../../helpers/ConfigParser/types';
 import { Team } from '../Team';
 import { TeamList } from '../TeamList';
 import PacmanLoader from 'react-spinners/PacmanLoader';
-import { TeamsContext } from '../contexts';
+import { PrimaryContext } from '../contexts';
 
 
 interface AppState {
   elements: Elements;
   teams: Teams;
+  filters: Array<FilterDisplay>;
   loading: boolean;
 }
 
@@ -20,12 +21,13 @@ export class App extends React.Component<{}, Readonly<AppState>> {
   readonly state: AppState = {
     elements: {},
     teams: [],
+    filters: [],
     loading: true
   }
 
   constructor(props: Readonly<{}>) {
     super(props)
-    getParsedState(this.state.elements, this.state.teams).then(([elements, teams]) => this.setState({elements: elements, teams: teams, loading: false}))
+    getParsedState(this.state.elements).then(([elements, teams, filters]) => this.setState({elements: elements, teams: teams, filters: filters,loading: false}))
   }
 
   renderBody() {
@@ -40,10 +42,10 @@ export class App extends React.Component<{}, Readonly<AppState>> {
         <div>
           <BrowserRouter>
             <Switch>
-              <TeamsContext.Provider value={this.state.teams}>
-                <Route path="/" component={TeamList} exact />
+              <PrimaryContext.Provider value={{elements: this.state.elements, teams: this.state.teams}}>
+                <Route path="/" render={() => <TeamList filters={this.state.filters}/>} exact />
                 <Route path="/team/:teamNum" component={Team} />
-              </TeamsContext.Provider>
+              </PrimaryContext.Provider>
             </Switch>
           </BrowserRouter>
         </div>
@@ -67,11 +69,6 @@ export class App extends React.Component<{}, Readonly<AppState>> {
             Made by{' '}
             <a href="https://team6479.org">AZTECH 6479</a>
           </p>
-          {/* <div>
-            <a href="https://www.netlify.com">
-              <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt=''/>
-            </a>
-          </div> */}
         </footer>
       </div>
     )

@@ -14,3 +14,20 @@
   width: 100%;
   text-align: center;
 }
+
+.TeamList .search input {
+  padding: 10px;
+  font-size: 14px;
+  max-width: 350px;
+  width: 100%;
+  background: #fff;
+  border: none;
+  border-radius: 5px;
+  display: block;
+  font-family: "Montserrat", sans-serif;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.TeamList .search {
+  flex-grow: 1;
+}

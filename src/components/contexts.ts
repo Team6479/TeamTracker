@@ -1,5 +1,5 @@
 import React from 'react';
-import { Teams } from '../helpers/ConfigParser/types';
+import { Teams, Elements } from '../helpers/ConfigParser/types';
 
-export const TeamsContext = React.createContext<Teams>({});
+export const PrimaryContext = React.createContext<{elements: Elements, teams: Teams}>({elements: {}, teams: {}});
 

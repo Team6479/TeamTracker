@@ -68,11 +68,6 @@ A:hover {
   font-weight: none
 }
 
-/* .wordwrap {
-  white-space: pre-line !important;
-  word-wrap: break-word;
-} */
-
 @media (min-width: 750px) and (max-width: 999px) {
   .TeamPreview {
     flex: 0 1 300px;
