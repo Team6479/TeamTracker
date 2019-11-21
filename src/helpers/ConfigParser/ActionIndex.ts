@@ -31,6 +31,13 @@ export class ActionIndex {
     if (action === null) {
       return entries;
     }
-    return this.getAction(action)(entries);
+
+    let actionFunc = this.getAction(action);
+
+    try {
+      return actionFunc(entries);
+    } catch {
+      throw TypeError(`Action: '${action}' is not a function. ${actionFunc}`);
+    }
   }
 }
