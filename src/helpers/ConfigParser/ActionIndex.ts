@@ -16,6 +16,7 @@ export class ActionIndex {
   }
 
   registerAction(action: Function) {
+    console.log(this.actions);
     this.actions[action.name] = action;
   }
 
