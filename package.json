@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/chart.js": "2.9.0",
+    "@types/chart.js": "2.9.1",
     "@types/gapi": "0.0.39",
     "@types/jest": "24.0.23",
-    "@types/lodash": "4.14.148",
-    "@types/node": "12.12.8",
+    "@types/lodash": "4.14.149",
+    "@types/node": "12.12.9",
     "@types/react": "16.9.11",
     "@types/react-dom": "16.9.4",
     "@types/react-router-dom": "5.1.2",
@@ -26,10 +26,12 @@
     "react-select": "3.0.8",
     "react-spinners": "0.6.1",
     "react-table": "6.10.3",
-    "typescript": "3.7.2"
+    "typescript": "3.7.2",
+    "yarn-deduplicate": "1.1.1"
   },
   "scripts": {
     "index": "cti ./src/components/*/",
+    "deduplicate": "yarn-deduplicate yarn.lock",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
