@@ -60,8 +60,8 @@ export const FilterRange: React.FC<FilterRangeProps> = (props) => {
               {...props}
               style={{
                 ...props.style,
-                height: '42px',
-                width: '42px',
+                height: '21px',
+                width: '21px',
                 borderRadius: '4px',
                 backgroundColor: '#FFF',
                 display: 'flex',

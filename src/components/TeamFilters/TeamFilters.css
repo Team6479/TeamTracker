@@ -11,11 +11,11 @@
 }
 
 .filter-item hr {
-  position: absolute;
   bottom: 0;
-  left: -15px;
-  right: -15px;
-  background-color: #f1f1f1;
+  width:95%;
+  text-align:center;
+  margin: 0 auto;
+  background-color: #000000;
   border: none;
   height: 2px;
 }
