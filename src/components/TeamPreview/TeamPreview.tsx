@@ -33,13 +33,6 @@ export const TeamPreviw: React.FC<TeamPreviewProps> = (props): JSX.Element => {
       <div style={{ marginTop: 20}}>
           <TeamGraph displays={graphDisplay} />
       </div>
-
-      {/* TODO: Make this not a placeholder */}
-      <div className="compare">
-          <button className=''>
-            Compare
-          </button>
-      </div>
     </li>
   )
 }
