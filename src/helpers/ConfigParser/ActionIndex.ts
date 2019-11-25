@@ -1,4 +1,3 @@
-import * as actions from './actions';
 import { DataSheet } from './DataSheet';
 
 /**
@@ -7,16 +6,7 @@ import { DataSheet } from './DataSheet';
 export class ActionIndex {
   private actions: { [action: string]: Function; } = {};
 
-  constructor() {
-    for (let item of Object.values(actions)) {
-      if (typeof item === "function") {
-        this.registerAction(item);
-      }
-    }
-  }
-
   registerAction(action: Function) {
-    console.log(this.actions);
     this.actions[action.name] = action;
   }
 
