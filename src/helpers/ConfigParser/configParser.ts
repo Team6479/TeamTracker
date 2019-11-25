@@ -16,11 +16,13 @@ async function getLatestCommit(): Promise<string> {
   return response.data.sha;
 }
 
-function injectActionScript(commit: string, mainConfig: MainConfig): Promise<ActionIndex> {
+function injectActionScript(commit: string, mainConfig: MainConfig, actionIndex?: ActionIndex): Promise<ActionIndex> {
   var actionsScript = document.createElement('script');
   var actionsScriptLoad = new Promise<ActionIndex>((resolve) => {
     actionsScript.onload = () => {
-      let actionIndex = new ActionIndex();
+      if (actionIndex ===  undefined) {
+        actionIndex = new ActionIndex();
+      }
       // @ts-ignore window.actions is loaded at runtime
       for (let item of Object.values(window.actions)) {
         if (typeof item === "function") {
@@ -31,6 +33,28 @@ function injectActionScript(commit: string, mainConfig: MainConfig): Promise<Act
     }
   })
   actionsScript.src = `https://cdn.jsdelivr.net/gh/iboyperson/TeamTracker-TestConfig@${commit}/${mainConfig.yearsDir}/${mainConfig.defaultGameYear}/actions.min.js`;
+  document.head.appendChild(actionsScript);
+
+  return actionsScriptLoad;
+}
+
+function injectGlobalActionScript(commit: string, actionIndex?: ActionIndex): Promise<ActionIndex> {
+  var actionsScript = document.createElement('script');
+  var actionsScriptLoad = new Promise<ActionIndex>((resolve) => {
+    actionsScript.onload = () => {
+      if (actionIndex ===  undefined) {
+        actionIndex = new ActionIndex();
+      }
+      // @ts-ignore window.actions is loaded at runtime
+      for (let item of Object.values(window.globalActions)) {
+        if (typeof item === "function") {
+          actionIndex.registerAction(item);
+        }
+      }
+      resolve(actionIndex);
+    }
+  })
+  actionsScript.src = `https://cdn.jsdelivr.net/gh/iboyperson/TeamTracker-TestConfig@${commit}/globalActions.min.js`;
   document.head.appendChild(actionsScript);
 
   return actionsScriptLoad;
@@ -95,7 +119,7 @@ const configPromise: Promise<[AxiosInstance, YearConfig, EventConfig, ActionInde
   const [yearConfig, eventConfig, actionIndex, teams] = await Promise.all<YearConfig, EventConfig, ActionIndex, Array<any>>([
     getYearConfig(rawgitInstance, mainConfig),
     getEventConfig(rawgitInstance, mainConfig),
-    injectActionScript(commit, mainConfig),
+    injectActionScript(commit, mainConfig, await injectGlobalActionScript(commit)),
     blueallianceInstance.get<Array<any>>('teams/simple').then(response => response.data)
   ])
 
