@@ -14,4 +14,3 @@ export const MatchContext = React.createContext<{ match: Match }>({
     post_result_time: 0
   }
 });
-
