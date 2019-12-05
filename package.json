@@ -22,11 +22,11 @@
     "react-dom": "16.12.0",
     "react-range": "1.4.3",
     "react-router-dom": "5.1.2",
-    "react-scripts": "3.2.0",
+    "react-scripts": "3.3.0",
     "react-select": "3.0.8",
     "react-spinners": "0.6.1",
     "react-table": "6.10.3",
-    "typescript": "3.7.2",
+    "typescript": "3.7.3",
     "yarn-deduplicate": "1.1.1"
   },
   "scripts": {
