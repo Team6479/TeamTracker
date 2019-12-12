@@ -1,5 +1,5 @@
 import './TeamFilters.css'
-import React, { useState } from 'react';
+import React from 'react';
 import { FilterDisplay } from '../../helpers/ConfigParser/types';
 import cloneDeep from 'lodash/cloneDeep'
 import { FilterRange } from '../FilterRange';
@@ -7,7 +7,6 @@ import { FilterRange } from '../FilterRange';
 interface TeamFiltersProps {
   filters: Array<FilterDisplay>;
   onChange: Function;
-  open: boolean
 }
 
 export const TeamFilters: React.FC<TeamFiltersProps> = (props): JSX.Element => {
@@ -34,14 +33,14 @@ export const TeamFilters: React.FC<TeamFiltersProps> = (props): JSX.Element => {
   }
 
   return (
-    <div className={`TeamFilters ${props.open ? 'open' : `closed`}`}>
+    <div className="TeamFilters">
       <div className="filter-card">
         <h3>Filters</h3>
         <div className="filter-item">
           {filterElements}
         </div>
       </div>
-      
+
     </div>
   )
 }

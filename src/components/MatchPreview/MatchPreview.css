@@ -25,6 +25,7 @@
 
 .red{
   border-left: 10px solid red;
+  border-right: 10px solid red;
   background-color: rgb(255, 126, 126);
   padding: 15px;
   margin: 10px;
@@ -33,6 +34,7 @@
 
 .blue{
   border-left: 10px solid blue;
+  border-right: 10px solid blue;
   background-color: rgb(50, 141, 255);
   padding: 15px;
   margin: 10px;

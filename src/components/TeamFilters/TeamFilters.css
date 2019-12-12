@@ -1,6 +1,7 @@
 .TeamFilters {
-  transition: all .2s ease;
   order: 1;
+  width: 100%;
+  opacity: 1;
 }
 
 .filter-item {
@@ -27,22 +28,6 @@
 .filter-card h3 {
   text-align: center;
   margin-top: 0;
-}
-
-.TeamFilters {
-  transition: all .2s ease;
-  order: 1;
-}
-
-.TeamFilters.open {
-  width: 100%;
-  opacity: 1;
-}
-
-.TeamFilters.closed {
-  width: 0;
-  opacity: 0;
-  display: none;
 }
 
 .filter-card {
@@ -74,16 +59,9 @@
   margin-top: 0;
 }
 
-
 @media (min-width: 800px) {
   .TeamFilters {
     order: 2;
-  }
-  .TeamFilters.open {
-    width: 400px;
-  }
-
-  .TeamFilters.closed {
-    display: block;
+    width: 400px
   }
 }
