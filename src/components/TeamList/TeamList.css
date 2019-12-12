@@ -101,9 +101,9 @@
   flex-direction: column;
 }
 
-.wordwrap { 
-  white-space: pre-line !important; 
-  word-wrap: break-word; 
+.wordwrap {
+  white-space: pre-line !important;
+  word-wrap: break-word;
 }
 
 @media (min-width: 800px) {
@@ -114,6 +114,3 @@
     order: 1;
   }
 }
-
-
-
