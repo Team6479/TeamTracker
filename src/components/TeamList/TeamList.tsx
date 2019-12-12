@@ -13,6 +13,7 @@ interface TeamListProps {
 interface TeamListState {
   filters: Array<FilterDisplay>;
   search: string;
+  open: boolean;
 }
 
 export class TeamList extends React.Component<TeamListProps, Readonly<TeamListState>> {
@@ -20,7 +21,8 @@ export class TeamList extends React.Component<TeamListProps, Readonly<TeamListSt
 
   readonly state: Readonly<TeamListState> = {
     filters: this.props.filters,
-    search: ""
+    search: "",
+    open: false,
   }
 
   renderTeams() {
@@ -43,7 +45,7 @@ export class TeamList extends React.Component<TeamListProps, Readonly<TeamListSt
 
     let teams = [];
     for (const teamNum of teamNums) {
-      teams.push((<div key={teamNum}><TeamPreviw teamNum={teamNum} /></div>))
+      teams.push((<TeamPreviw teamNum={teamNum} key={teamNum}/>))
     }
     if (teams.length > 0) {
       return (
@@ -64,19 +66,32 @@ export class TeamList extends React.Component<TeamListProps, Readonly<TeamListSt
   render(): JSX.Element {
     return (
       <div className="TeamList">
-        <div className="search">
-          <span className="filter-label">Search:</span>{' '}
-          <input
-            type="text"
-            name="search"
-            id="search"
-            placeholder="Type a team number..."
-            value={this.state.search}
-            onChange={e => this.setState({search: e.target.value})}
-          />
+        <div className="filters">
+          <div className="filter-wrapper search">
+            <span className="filter-label">Search:</span>{' '}
+            <input
+              type="text"
+              name="search"
+              id="search"
+              placeholder="Type a team number..."
+              value={this.state.search}
+              onChange={e => this.setState({search: e.target.value})}
+            />
+          </div>
+          <div className="filter-wrapper">
+            <button className="filter-button" onClick={() => this.setState({ open: !this.state.open })}>
+              {this.state.open ? 'Close' : 'Open'} Filters
+            </button>
+          </div>
         </div>
-        <TeamFilters filters={this.state.filters} onChange={(object: Readonly<TeamListState>) => this.setState(object)}/>
-        {this.renderTeams()}
+            <div className="list-and-filters">
+            {this.renderTeams()}
+              <TeamFilters 
+                filters={this.state.filters} 
+                onChange={(object: Readonly<TeamListState>) => this.setState(object) }
+                open={this.state.open}
+              />
+            </div>
       </div>
     )
   }

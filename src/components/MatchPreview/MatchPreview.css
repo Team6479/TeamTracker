@@ -19,3 +19,22 @@
   border: none;
   height: 2px;
 }
+.MatchPreview h3 {
+  margin-left: 20px;
+}
+
+.red{
+  border-left: 10px solid red;
+  background-color: rgb(255, 126, 126);
+  padding: 15px;
+  margin: 10px;
+  border-radius: 4px;
+}
+
+.blue{
+  border-left: 10px solid blue;
+  background-color: rgb(50, 141, 255);
+  padding: 15px;
+  margin: 10px;
+  border-radius: 4px;
+}
