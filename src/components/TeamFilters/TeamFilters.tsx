@@ -6,7 +6,7 @@ import { FilterRange } from '../FilterRange';
 
 interface TeamFiltersProps {
   filters: Array<FilterDisplay>;
-  onChange: Function
+  onChange: Function;
 }
 
 export const TeamFilters: React.FC<TeamFiltersProps> = (props): JSX.Element => {
@@ -34,8 +34,13 @@ export const TeamFilters: React.FC<TeamFiltersProps> = (props): JSX.Element => {
 
   return (
     <div className="TeamFilters">
-      <h3>Filters</h3>
-      {filterElements}
+      <div className="filter-card">
+        <h3>Filters</h3>
+        <div className="filter-item">
+          {filterElements}
+        </div>
+      </div>
+
     </div>
   )
 }

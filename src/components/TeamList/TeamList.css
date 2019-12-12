@@ -31,3 +31,89 @@
 .TeamList .search {
   flex-grow: 1;
 }
+
+.Loading {
+  height: 700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.filter-button {
+  border: none;
+  font-size: 14px;
+  padding: 10px 15px;
+  color: #6aa84f;
+  width: 170px;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  text-transform: uppercase;
+  background: #fff;
+  outline: 0;
+  transition: all .3s ease;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+
+.TeamList .filters {
+  margin: 15px auto;
+  max-width: 800px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 17px;
+}
+
+.TeamList .filters .filter-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.TeamList .filters .filter-wrapper:not(:last-child) {
+  margin-right: 15px;
+}
+
+.TeamList .filters .filter-wrapper .filter-label {
+  margin-right: 15px;
+}
+
+.TeamList .filters .filter {
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  min-width: 240px;
+}
+
+.TeamList .filters .filter .filter__control {
+  background: #fff;
+  border: none;
+}
+
+.list-and-filters {
+  display: flex;
+  flex-direction: column;
+}
+
+.wordwrap { 
+  white-space: pre-line !important; 
+  word-wrap: break-word; 
+}
+
+@media (min-width: 800px) {
+  .list-and-filters {
+    flex-direction: row;
+  }
+  .team-list {
+    order: 1;
+  }
+}
+
+
+

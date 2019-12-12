@@ -17,12 +17,12 @@ export const MatchPreview: React.FC = () => {
 
   return (
     <div className="MatchPreview">
-      <ul className='list'>
-        Red: {getTeams(matchContext.match.alliances.red.team_keys)}
+      <ul className='list red'>
+        {getTeams(matchContext.match.alliances.red.team_keys)}
       </ul>
       <hr/>
-      <ul className='list'>
-        Blue: {getTeams(matchContext.match.alliances.blue.team_keys)}
+      <ul className='list blue'>
+        {getTeams(matchContext.match.alliances.blue.team_keys)}
       </ul>
     </div>
   )
