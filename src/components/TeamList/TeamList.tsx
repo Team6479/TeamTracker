@@ -45,7 +45,7 @@ export class TeamList extends React.Component<TeamListProps, Readonly<TeamListSt
 
     let teams = [];
     for (const teamNum of teamNums) {
-      teams.push((<TeamPreviw teamNum={teamNum} key={teamNum} />))
+      teams.push((<TeamPreviw teamNum={teamNum} key={teamNum}/>))
     }
     if (teams.length > 0) {
       return (
