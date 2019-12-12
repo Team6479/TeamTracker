@@ -185,3 +185,6 @@ build/
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Stop people from using npm and pushing it
+package-lock.json
