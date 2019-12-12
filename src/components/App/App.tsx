@@ -2,15 +2,17 @@ import './App.css';
 import React from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import logo from '../../logo.svg'
-import { getParsedState } from '../../helpers/ConfigParser';
-import { Elements, Teams, FilterDisplay } from '../../helpers/ConfigParser/types';
+import { StateUpdater, ParsedState } from '../../helpers/ConfigParser/ConfigUpdater';
+import { Elements, Teams, FilterDisplay, Match } from '../../helpers/ConfigParser/types';
 import { Team } from '../Team';
 import { TeamList } from '../TeamList';
 import PacmanLoader from 'react-spinners/PacmanLoader';
-import { PrimaryContext } from '../contexts';
+import { PrimaryContext, MatchContext } from '../contexts';
+import { MatchPreview } from '../MatchPreview';
 
 
 interface AppState {
+  currentMatch: Match;
   elements: Elements;
   teams: Teams;
   filters: Array<FilterDisplay>;
@@ -18,16 +20,29 @@ interface AppState {
 }
 
 export class App extends React.Component<{}, Readonly<AppState>> {
-  readonly state: AppState = {
+  readonly state: Readonly<AppState> = {
+    currentMatch: {
+      key: "",
+      match_number: 0,
+      alliances: {
+        red: {team_keys: []},
+        blue: {team_keys: []}
+      },
+      winning_alliance: "",
+      post_result_time: 0
+    },
     elements: {},
     teams: [],
     filters: [],
     loading: true
   }
 
+  private updater: Readonly<StateUpdater> = new StateUpdater((data: ParsedState) => this.setState(data), () => this.setState({loading: false}));
+
   constructor(props: Readonly<{}>) {
     super(props)
-    getParsedState(this.state.elements).then(([elements, teams, filters]) => this.setState({elements: elements, teams: teams, filters: filters,loading: false}))
+
+    this.updater.start()
   }
 
   renderBody() {
@@ -45,6 +60,9 @@ export class App extends React.Component<{}, Readonly<AppState>> {
               <PrimaryContext.Provider value={{elements: this.state.elements, teams: this.state.teams}}>
                 <Route path="/" render={() => <TeamList filters={this.state.filters}/>} exact />
                 <Route path="/team/:teamNum" component={Team} />
+                <MatchContext.Provider value={{match: this.state.currentMatch}}>
+                  <Route path="/match" component={MatchPreview} />
+                </MatchContext.Provider>
               </PrimaryContext.Provider>
             </Switch>
           </BrowserRouter>

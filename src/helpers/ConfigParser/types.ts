@@ -25,6 +25,21 @@ export interface TableDisplay {
   readonly value: number | string;
 }
 
+export interface Alliance {
+  team_keys: Array<string>;
+}
+
+export interface Match {
+  key: string;
+  match_number: number;
+  alliances: {
+    red: Alliance;
+    blue: Alliance;
+  }
+  winning_alliance: string;
+  post_result_time: number;
+}
+
 export interface FilterDisplay {
   title: string;
   id: string;

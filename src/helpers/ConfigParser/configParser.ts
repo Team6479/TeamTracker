@@ -110,7 +110,7 @@ async function getGoogleSheet(eventConfig: EventConfig): Promise<DataSheet> {
   })
 }
 
-const configPromise: Promise<[AxiosInstance, YearConfig, EventConfig, ActionIndex, Array<any>]> = (async (): Promise<[AxiosInstance, YearConfig, EventConfig, ActionIndex, Array<any>]> => {
+export const configPromise: Promise<[AxiosInstance, YearConfig, EventConfig, ActionIndex, Array<any>]> = (async (): Promise<[AxiosInstance, YearConfig, EventConfig, ActionIndex, Array<any>]> => {
   const commit = await getLatestCommit();
   const rawgitInstance = getRawgitInstance(commit);
   const mainConfig = await getMainConfig(rawgitInstance);
@@ -233,7 +233,7 @@ export async function getTeams(elements: Elements): Promise<Teams> {
 }
 
 
-export async function getParsedState(elements: Elements): Promise<[Elements, Teams, Array<FilterDisplay>]> {
+export async function getParsedState(elements?: Elements): Promise<[Elements, Teams, Array<FilterDisplay>]> {
   if (elements === undefined) {
     elements = await getElements();
   } else {
