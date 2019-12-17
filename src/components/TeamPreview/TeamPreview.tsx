@@ -31,7 +31,7 @@ export const TeamPreviw: React.FC<TeamPreviewProps> = (props): JSX.Element => {
       </div>
 
       <div style={{ marginTop: 20}}>
-          <TeamGraph displays={graphDisplay} />
+        <TeamGraph displays={graphDisplay} />
       </div>
     </li>
   )

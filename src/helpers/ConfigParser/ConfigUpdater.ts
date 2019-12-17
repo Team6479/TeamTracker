@@ -1,8 +1,8 @@
 import { configPromise, getParsedState } from './configParser';
-import { Elements, Teams, FilterDisplay, Match } from './types';
+import { Elements, Teams, FilterDisplay, Match, Matches } from './types';
 
 export interface ParsedState {
-  currentMatch: Match;
+  matches: Matches;
   elements: Elements;
   teams: Teams;
   filters: Array<FilterDisplay>;
@@ -42,28 +42,24 @@ export class StateUpdater {
   private spawnUpdater(setUpdaterCompleted: (value: boolean) => void, setFirstUpdate: (value: boolean) => void) {
     const spawn = async () => {
       const [blueallianceInstance, , , ,] = await configPromise;
-      const matches: Array<Match> = await blueallianceInstance.get('matches').then((response) => response.data);
-      for (const match of matches.slice(this.lastMatchIndex)) {
-        let matchIndex: number = matches.indexOf(match)
-        if (match.post_result_time > 0
-            && (match.alliances.red.team_keys.includes("frc6479") || match.alliances.blue.team_keys.includes("frc6479"))
-            && this.lastMatchIndex !== matchIndex) {
-          const [elements, teams, filters] = await getParsedState();
-          this.lastMatchIndex = matchIndex;
-          this.onUpdate({
-            currentMatch: match,
-            elements: elements,
-            teams: teams,
-            filters: filters
-          });
-        }
-      }
+      const matches_array: Array<Match> = await blueallianceInstance.get('matches').then((response) => response.data);
+      var matches: Matches = matches_array.reduce((matches: Matches, match) => {
+        matches[match.key] = match;
+        return matches;
+      }, {});
+      const [elements, teams, filters] = await getParsedState();
+      this.onUpdate({
+        matches: matches,
+        elements: elements,
+        teams: teams,
+        filters: filters
+      });
       console.debug("Updater Completed!");
     }
 
     if (this.updaterCompleted) {
       console.debug(`Updater Spawned at: ${Date.now()}`);
-      setUpdaterCompleted(false)
+      setUpdaterCompleted(false);
       this.updater = spawn().then(() => { setUpdaterCompleted(true) });
 
       if (this.firstUpdate) {
@@ -71,9 +67,8 @@ export class StateUpdater {
         setFirstUpdate(false);
       }
     } else {
-      console.debug(`Previous Update has yet to finish: ${Date.now()}`)
+      console.debug(`Previous Update has yet to finish: ${Date.now()}`);
     }
-
   }
 
   /**

@@ -3,16 +3,16 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import logo from '../../logo.svg'
 import { StateUpdater, ParsedState } from '../../helpers/ConfigParser/ConfigUpdater';
-import { Elements, Teams, FilterDisplay, Match } from '../../helpers/ConfigParser/types';
-import { Team } from '../Team';
+import { Elements, Teams, FilterDisplay, Matches } from '../../helpers/ConfigParser/types';
 import { TeamList } from '../TeamList';
 import PacmanLoader from 'react-spinners/PacmanLoader';
-import { PrimaryContext, MatchContext } from '../contexts';
+import { PrimaryContext, MatchesContext } from '../contexts';
 import { MatchPreview } from '../MatchPreview';
+import { TeamOverview } from '../TeamOverview/TeamOverview';
 
 
 interface AppState {
-  currentMatch: Match;
+  matches: Matches;
   elements: Elements;
   teams: Teams;
   filters: Array<FilterDisplay>;
@@ -21,16 +21,7 @@ interface AppState {
 
 export class App extends React.Component<{}, Readonly<AppState>> {
   readonly state: Readonly<AppState> = {
-    currentMatch: {
-      key: "",
-      match_number: 0,
-      alliances: {
-        red: {team_keys: []},
-        blue: {team_keys: []}
-      },
-      winning_alliance: "",
-      post_result_time: 0
-    },
+    matches: {},
     elements: {},
     teams: [],
     filters: [],
@@ -59,10 +50,10 @@ export class App extends React.Component<{}, Readonly<AppState>> {
             <Switch>
               <PrimaryContext.Provider value={{elements: this.state.elements, teams: this.state.teams}}>
                 <Route path="/" render={() => <TeamList filters={this.state.filters}/>} exact />
-                <Route path="/team/:teamNum" component={Team} />
-                <MatchContext.Provider value={{match: this.state.currentMatch}}>
-                  <Route path="/match" component={MatchPreview} />
-                </MatchContext.Provider>
+                <Route path="/team/:teamNum" component={TeamOverview} />
+                <MatchesContext.Provider value={this.state.matches}>
+                  <Route path="/match/:matchKey" component={MatchPreview} />
+                </MatchesContext.Provider>
               </PrimaryContext.Provider>
             </Switch>
           </BrowserRouter>

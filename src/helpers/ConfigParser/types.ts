@@ -40,6 +40,10 @@ export interface Match {
   post_result_time: number;
 }
 
+export interface Matches {
+  [match_key: string]: Match
+}
+
 export interface FilterDisplay {
   title: string;
   id: string;

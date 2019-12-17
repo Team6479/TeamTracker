@@ -2,19 +2,40 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
     <meta
       name="description"
       content="Web site created using create-react-app"
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+
+    <!--
+      From: https://realfavicongenerator.net/
+    -->
+    <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png">
+    <link rel="mask-icon" href="%PUBLIC_URL%/safari-pinned-tab.svg" color="#fdc300">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <meta name="msapplication-TileColor" content="#fdc300">
+    <meta name="msapplication-TileImage" content="%PUBLIC_URL%/mstile-144x144.png">
+    <meta name="msapplication-config" content="%PUBLIC_URL%/browserconfig.xml">
+    <meta name="theme-color" content="#000000">
+
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <!--
+      Preconnect to websites
+    -->
+    <link rel="preconnect" href="https://api.github.com">
+    <link rel="preconnect" href="https://content-sheets.googleapis.com">
+    <link rel="preconnect" href="https://content.googleapis.com">
+    <link rel="preconnect" href="https://apis.google.com">
+    <link rel="preconnect" href="https://csi.gstatic.com">
+
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -25,7 +46,7 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>TeamTracker</title>
-    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://apis.google.com/js/api.js" async></script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
