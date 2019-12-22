@@ -41,13 +41,33 @@ export class StateUpdater {
 
   private spawnUpdater(setUpdaterCompleted: (value: boolean) => void, setFirstUpdate: (value: boolean) => void) {
     const spawn = async () => {
-      const [blueallianceInstance, , , ,] = await configPromise;
-      const matches_array: Array<Match> = await blueallianceInstance.get('matches').then((response) => response.data);
-      var matches: Matches = matches_array.reduce((matches: Matches, match) => {
-        matches[match.key] = match;
-        return matches;
-      }, {});
-      const [elements, teams, filters] = await getParsedState();
+      const mathcesPromise: Promise<Matches> = (async () => {
+        const [blueallianceInstance, , , ,] = await configPromise;
+        const matches_array: Array<Match> = await blueallianceInstance.get('matches').then((response) => response.data);
+        return matches_array.reduce<Matches>((matches: Matches, match) => {
+          matches[match.key] = match;
+          return matches;
+        }, {});
+      })()
+
+      var [matches, [elements, teams, filters]] = await Promise.all([
+        mathcesPromise,
+        getParsedState()
+      ])
+
+      for (const matchKey of Object.keys(matches)) {
+        const match = matches[matchKey]
+        const teamKeys = [...match.alliances.blue.team_keys, ...match.alliances.red.team_keys]
+        for (const teamKey of teamKeys) {
+          const teamNum = parseInt(teamKey.substring(3));  // substring(3) strips out the 'frc' prefix in the key
+          const team = teams[teamNum];
+          if (!Object.keys(team.displays).includes("matches")) {
+            team.displays["matches"] = []
+          }
+          team.displays["matches"].push(match);
+        }
+      }
+
       this.onUpdate({
         matches: matches,
         elements: elements,
