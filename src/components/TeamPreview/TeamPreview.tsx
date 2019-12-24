@@ -1,9 +1,9 @@
-import './TeamPreview.css'
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { PrimaryContext } from '../contexts';
 import { Teams, Elements } from '../../helpers/ConfigParser/types';
 import { TeamGraph } from '../TeamGraph';
+import './TeamPreview.css'
 
 interface TeamPreviewProps {
   teamNum: number

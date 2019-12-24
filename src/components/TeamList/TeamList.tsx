@@ -1,10 +1,10 @@
-import './TeamList.css'
 import React from "react";
 import { PrimaryContext } from '../contexts';
 import { Teams, FilterDisplay, Elements } from '../../helpers/ConfigParser/types';
 import { TeamPreviw } from "../TeamPreview";
 import NotFound from './not-found.gif';
 import { TeamFilters } from '../TeamFilters';
+import './TeamList.css'
 
 interface TeamListProps {
   filters: Array<FilterDisplay>;

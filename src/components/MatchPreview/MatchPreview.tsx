@@ -1,9 +1,9 @@
-import './MatchPreview.css'
 import React, { useContext } from 'react';
 import { MatchesContext } from '../contexts';
 import { TeamPreviw } from '../TeamPreview/TeamPreview';
 import { RouteComponentProps } from 'react-router-dom';
 import { Matches } from '../../helpers/ConfigParser/types';
+import './MatchPreview.css'
 
 interface MatchPreviewProps {
   matchKey: string;

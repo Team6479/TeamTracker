@@ -1,4 +1,3 @@
-import './App.css';
 import React from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import logo from '../../logo.svg'
@@ -9,6 +8,7 @@ import PacmanLoader from 'react-spinners/PacmanLoader';
 import { PrimaryContext, MatchesContext } from '../contexts';
 import { MatchPreview } from '../MatchPreview';
 import { TeamOverview } from '../TeamOverview/TeamOverview';
+import './App.css';
 
 
 interface AppState {

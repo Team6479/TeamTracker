@@ -14,9 +14,9 @@ export interface ParsedState {
 export class StateUpdater {
   private updateInterval?: NodeJS.Timeout;
   private updater?: Promise<void>;
-  private lastMatchIndex: number = 0;
   private updaterCompleted: boolean = true;
   private firstUpdate: boolean = true;
+  private matchLastModified: string = "";
 
   /**
    * @param onUpdate A function to be called on state update. It will be passed `currentMatch, elements, teams, and filters` as an object.
@@ -39,21 +39,33 @@ export class StateUpdater {
     }, 30000);
   }
 
-  private spawnUpdater(setUpdaterCompleted: (value: boolean) => void, setFirstUpdate: (value: boolean) => void) {
+  private spawnUpdater(setUpdaterCompleted: (value: boolean) => void, setFirstUpdate: (value: boolean) => void): void {
     const spawn = async () => {
-      const mathcesPromise: Promise<Matches> = (async () => {
+      const matches: Matches | undefined = await (async () => {
         const [blueallianceInstance, , , ,] = await configPromise;
-        const matches_array: Array<Match> = await blueallianceInstance.get('matches').then((response) => response.data);
+        var matches_array: Array<Match> = []
+        try {
+          matches_array = await blueallianceInstance.get('matches', {headers: {"If-Modified-Since": this.matchLastModified}})
+            .then((response) => {
+              this.matchLastModified = response.headers["last-modified"];
+              return response.data
+            });
+        } catch {
+          return;
+        }
+
         return matches_array.reduce<Matches>((matches: Matches, match) => {
           matches[match.key] = match;
           return matches;
         }, {});
-      })()
+      })();
 
-      var [matches, [elements, teams, filters]] = await Promise.all([
-        mathcesPromise,
-        getParsedState()
-      ])
+      if (matches === undefined) {
+        console.debug("No updates to state required...")
+        return;
+      }
+
+      var [elements, teams, filters] = await getParsedState()
 
       for (const matchKey of Object.keys(matches)) {
         const match = matches[matchKey]

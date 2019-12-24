@@ -1,8 +1,8 @@
-import './TeamFilters.css'
 import React from 'react';
 import { FilterDisplay } from '../../helpers/ConfigParser/types';
 import cloneDeep from 'lodash/cloneDeep'
 import { FilterRange } from '../FilterRange';
+import './TeamFilters.css'
 
 interface TeamFiltersProps {
   filters: Array<FilterDisplay>;

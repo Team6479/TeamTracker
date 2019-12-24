@@ -31,6 +31,7 @@ export interface Alliance {
 
 export interface Match {
   key: string;
+  comp_level: string;
   match_number: number;
   alliances: {
     red: Alliance;
