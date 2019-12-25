@@ -39,6 +39,7 @@ export interface Match {
   }
   winning_alliance: string;
   post_result_time: number;
+  set_number: number;
 }
 
 export interface Matches {

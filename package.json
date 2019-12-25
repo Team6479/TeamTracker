@@ -6,7 +6,6 @@
     "@types/chart.js": "2.9.7",
     "@types/gapi": "0.0.39",
     "@types/jest": "24.0.24",
-    "@types/lodash": "4.14.149",
     "@types/node": "12.12.21",
     "@types/react": "16.9.17",
     "@types/react-dom": "16.9.4",
@@ -21,9 +20,9 @@
     "react-dom": "16.12.0",
     "react-range": "1.4.6",
     "react-router-dom": "5.1.2",
-    "react-scripts": "3.3.0",
+    "react-scripts": "^3.3.0",
     "react-spinners": "0.7.1",
-    "typescript": "3.7.4",
+    "typescript": "^3.7.4",
     "yarn-deduplicate": "1.1.1"
   },
   "scripts": {
@@ -48,5 +47,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.149"
   }
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { Match } from '../../helpers/ConfigParser/types';
 import { Link } from 'react-router-dom';
 import './MatchTable.css';
+import _ from 'lodash';
 
 interface MatchTableProps {
   matches: Array<Match>;
@@ -27,7 +28,6 @@ function getMatchName(key: string, compLevel: string) {
   var subKey = key.substring(key.indexOf("_") + 1 + compLevel.length);  // Here we strip away the event key and comp_level
   var subLevelCheck = subKey.indexOf("m");
   if (subLevelCheck !== -1) {
-    console.log(subKey)
     title = `${title} ${subKey.substring(0, 1)} Match ${subKey.substring(subLevelCheck + 1)}`
   } else {
     title = `${title} ${subKey}`
@@ -76,7 +76,18 @@ function renderRow(match: Match) {
 function renderTbody(matches: Array<Match>) {
   const tbody: Array<JSX.Element> = []
   var prevCompLevel = "";
-  for (const match of matches) {
+
+  var result = _(matches)
+    .groupBy(match => match.comp_level)
+    .map((matches, comp_level) => ({ comp_level, matches }))
+    .value();
+  result.forEach(group => group.matches.sort((a, b) => parseInt("" + a.set_number + a.match_number) - parseInt("" + b.set_number + b.match_number)))
+  var final_matches: Array<Match> = []
+  result.reverse().forEach(match => {
+    final_matches = final_matches.concat(match.matches)
+  })
+
+  for (const match of final_matches) {
     if (prevCompLevel !== match.comp_level) {
       tbody.push((<tr key={match.comp_level} className="key"><th colSpan={16}>{getCompLevelTitle(match.comp_level)}</th></tr>))
     }
