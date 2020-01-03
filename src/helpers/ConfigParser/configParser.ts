@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { GraphDisplay, ListDisplay, TableDisplay, MainConfig, YearConfig, EventConfig, Elements, Teams, Team, FilterDisplay } from './types';
+import { GraphDisplay, ListDisplay, TableDisplay, MainConfig, YearConfig, EventConfig, Elements, Teams, Team, FilterDisplay, TableFooterDisplay } from './types';
 import { ActionIndex } from './ActionIndex';
 import { DataSheet } from './DataSheet';
 
@@ -167,7 +167,7 @@ export async function getElements(): Promise<Elements> {
         }
       })();
     })
-    
+
     elements = await (await Promise.all(elementPromises)).reduce((elements, element) => {
       if (elements[element.element.id] === undefined) {
         elements[element.element.id] = {};
@@ -195,6 +195,7 @@ export async function getTeams(elements: Elements): Promise<Teams> {
         graph: new Array<GraphDisplay>(),
         list: new Array<ListDisplay>(),
         table: new Array<TableDisplay>(),
+        tableFooter: new Array<TableFooterDisplay>()
       }
     }
 
@@ -223,15 +224,16 @@ export async function getTeams(elements: Elements): Promise<Teams> {
       }
     })
 
-    // We do this as filter needs to be handled differently
+    // Filter out displays that need to be handled differently
     let displays = Object.keys(yearConfig.displays).filter((value) => value !== "filter");
+
     for (let display of displays) {
       for (let element of yearConfig.displays[display]) {
         data.displays[display].push({
           title: element.title,
           _value: new IdReference(elements, element.id, teamNum),
           get value() {
-            return this._value.get()
+            return this._value.get();
           }
         })
       }

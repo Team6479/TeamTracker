@@ -22,6 +22,12 @@ export interface ListDisplay {
 export interface TableDisplay {
   title: string;
   _value: IdReference<Array<number | string>>;
+  readonly value: Array<number | string>;
+}
+
+export interface TableFooterDisplay {
+  title: string;
+  _value: IdReference<number | string>;
   readonly value: number | string;
 }
 
@@ -72,6 +78,10 @@ export interface Displays {
     title: string;
     id: string;
   }>;
+  tableFooter: Array<{
+    title: string;
+    id: string;
+  }>;
   filter: Array<{
     title: string;
     id: string;
@@ -107,6 +117,7 @@ export interface Team {
     graph: Array<GraphDisplay>;
     list: Array<ListDisplay>;
     table: Array<TableDisplay>;
+    tableFooter: Array<TableFooterDisplay>;
     [key: string]: Array<any>; // Make this interface indexable
   }
 }

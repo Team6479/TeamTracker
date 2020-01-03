@@ -1,6 +1,30 @@
 .TeamOverview {
-  margin:50px;
+  margin: 50px;
   border-radius: 0px !important;
   font-family: "Montserrat", sans-serif;
-  font-size: 16px
+  font-size: 16px;
+  overflow: auto;
+}
+
+@media only screen and (min-width: 481px) and (orientation: landscape) {
+  .vertical-flex {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .horizontal-flex {
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    width: 100%;
+  }
+
+  .horizontal-flex > div {
+    flex:  2;
+  }
+}
+
+#square {
+  height:400px;
+  border:1px solid #000;
 }

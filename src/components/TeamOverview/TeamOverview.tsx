@@ -4,6 +4,7 @@ import { Teams, Elements } from '../../helpers/ConfigParser/types';
 import { PrimaryContext} from '../contexts';
 import { MatchTable } from '../MatchTable';
 import './TeamOverview.css'
+import { SheetTable } from '../SheetTable/SheetTable';
 
 interface TeamOverviewProps {
   teamNum: string;
@@ -21,9 +22,18 @@ export const TeamOverview: React.FC<RouteComponentProps<TeamOverviewProps>> = (p
 
   return (
     <div className="TeamOverview" style={{borderRadius: '5px'}}>
-      <h1 style={{ fontWeight: 1000 }}>{`${teamNum} - ${team.name}`}</h1>
-      {list}
-      <MatchTable matches={team.displays["matches"]} />
+      <div className="vertical-flex">
+        <div className="horizontal-flex">
+          <div>
+            <h1 style={{ fontWeight: 1000 }}>{`${teamNum} - ${team.name}`}</h1>
+            {list}
+          </div>
+          <div>
+            <MatchTable matches={team.displays["matches"]} />
+          </div>
+        </div>
+        <SheetTable teamNum={teamNum} />
+      </div>
     </div>
   )
 }
