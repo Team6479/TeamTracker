@@ -1,26 +1,12 @@
 import React from 'react';
 import { Match } from '../../helpers/ConfigParser/types';
 import { Link } from 'react-router-dom';
+import { getCompLevelTitle } from '../../helpers/match';
 import './MatchTable.css';
 import _ from 'lodash';
 
 interface MatchTableProps {
   matches: Array<Match>;
-}
-
-function getCompLevelTitle(compLevel: string, shorten?: boolean): string {
-  switch(compLevel) {
-    case "qm":
-      return shorten ? "Quals" : "Qualifications";
-    case "qf":
-      return shorten ? "Quarters" : "Quarterfinals";
-    case "sf":
-      return shorten ? "Semis" : "Semifinals";
-    case "f":
-      return "Finals";
-    default:
-      return ""
-  }
 }
 
 function getMatchName(key: string, compLevel: string) {

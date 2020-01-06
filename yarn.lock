@@ -1277,11 +1277,6 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
-"@types/chart.js@2.9.7":
-  version "2.9.7"
-  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.9.7.tgz#09b60cc2e8039a1854d49dd880f9d2e484d7c027"
-  integrity sha512-T+oRIWLPu6cXWYSTwihkeZLKk5V4U4O09Uqx4padQto1XVH7YafX4Z4YV1OIWnKbkqMn/4Cuj9ZwWcG6fnKK3A==
-
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
@@ -1331,10 +1326,10 @@
     "@types/istanbul-lib-coverage" "*"
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@24.0.24":
-  version "24.0.24"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-24.0.24.tgz#0f2f523dc77cc1bc6bef34eaf287ede887a73f05"
-  integrity sha512-vgaG968EDPSJPMunEDdZvZgvxYSmeH8wKqBlHSkBt1pV2XlLEVDzsj1ZhLuI4iG4Pv841tES61txSBF0obh4CQ==
+"@types/jest@24.0.25":
+  version "24.0.25"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-24.0.25.tgz#2aba377824ce040114aa906ad2cac2c85351360f"
+  integrity sha512-hnP1WpjN4KbGEK4dLayul6lgtys6FPz0UfxMeMQCv0M+sTnzN3ConfiO72jHgLxl119guHgI8gLqDOrRLsyp2g==
   dependencies:
     jest-diff "^24.3.0"
 
@@ -1353,10 +1348,15 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
 
-"@types/node@*", "@types/node@12.12.21":
+"@types/node@*":
   version "12.12.21"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.21.tgz#aa44a6363291c7037111c47e4661ad210aded23f"
   integrity sha512-8sRGhbpU+ck1n0PGAUgVrWrWdjSW2aqNeyC15W88GRsMpSwzv6RJGlLhE7s2RhVSOdyDmxbqlWSeThq4/7xqlA==
+
+"@types/node@13.1.4":
+  version "13.1.4"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.1.4.tgz#4cfd90175a200ee9b02bd6b1cd19bc349741607e"
+  integrity sha512-Lue/mlp2egZJoHXZr4LndxDAd7i/7SQYhV0EjWfb/a4/OZ6tuVwMCVPiwkU5nsEipxEf7hmkSU7Em5VQ8P5NGA==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -1397,10 +1397,10 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react-table@7.0.1":
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/@types/react-table/-/react-table-7.0.1.tgz#f4962291f51f0abcec222b9a855666fe53eed0cc"
-  integrity sha512-/l2aHJWFck5n03kzbPy+y28jR3eNPial1c4uOa2BO+Y+O7x1V5OQPPCEeYbMFOEZgFsT8MouiF+CofQMUtvfNA==
+"@types/react-table@7.0.2":
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/@types/react-table/-/react-table-7.0.2.tgz#184de5ad5a7c5aced08b49812002a4d2e8918cc0"
+  integrity sha512-sxvjV0JCk/ijCzENejXth99cFMnmucATaC31gz1bMk8iQwUDE2VYaw2QQTcDrzBxzastBQGdcLpcFIN61RvgIA==
   dependencies:
     "@types/react" "*"
 
@@ -8579,10 +8579,10 @@ react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.11.0.tgz#b85dfecd48ad1ce469ff558a882ca8e8313928fa"
   integrity sha512-gbBVYR2p8mnriqAwWx9LbuUrShnAuSCNnuPGyc7GJrMVQtPDAh8iLpv7FRuMPFb56KkaVZIYSz1PrjI9q0QPCw==
 
-react-range@1.4.6:
-  version "1.4.6"
-  resolved "https://registry.yarnpkg.com/react-range/-/react-range-1.4.6.tgz#e0329f133e877e517fb60bd2e29f5b7ffe1b9503"
-  integrity sha512-QuB/bh9luxV3sYV7w1ev16MpoAl92nh+pHbZKXtmihuDUSvq221zjG3eUGeW4VtBZz6qzMZ9hhYhhNZNDH3PbQ==
+react-range@1.4.7:
+  version "1.4.7"
+  resolved "https://registry.yarnpkg.com/react-range/-/react-range-1.4.7.tgz#e087aadd0861ccffc4ed5640e755f81948af629a"
+  integrity sha512-CWNX3z7p7x0YS/Tonvcidl+LM5olsr7QXKXQeunfPgiPAzAK+BOa5kLL4hbt2oxfjCIHCFRePEdxL2eKqeNTTA==
 
 react-router-dom@5.1.2:
   version "5.1.2"
@@ -8673,10 +8673,10 @@ react-scripts@3.3.0:
   optionalDependencies:
     fsevents "2.1.2"
 
-react-spinners@0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/react-spinners/-/react-spinners-0.7.1.tgz#5d659391bf3ba722750171bb02a3130034cad15d"
-  integrity sha512-yNXk5WUHcuc+qLShDdueGMlqSdV9H0QvgNlnsSFPjbHQVCfQZFrnnkPUIX+ZfUKIesRoIdnO/GAqr4Fwu8EPxQ==
+react-spinners@0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/react-spinners/-/react-spinners-0.8.0.tgz#a64f5bc4c301f463841cf75ed67d6f64a365997c"
+  integrity sha512-xeoRNn4YlsqKaqBm0SgCrRt3sI99CGFraZbw9noD9RLKwumEJ55e9dkXjdEbZgJUmPymQCDrsazQe79DoFd9IQ==
   dependencies:
     "@emotion/core" "^10.0.15"
 

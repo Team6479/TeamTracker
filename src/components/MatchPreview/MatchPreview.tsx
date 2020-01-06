@@ -4,6 +4,7 @@ import { TeamPreviw } from '../TeamPreview/TeamPreview';
 import { RouteComponentProps } from 'react-router-dom';
 import { Matches } from '../../helpers/ConfigParser/types';
 import './MatchPreview.css'
+import { getCompLevelTitle } from '../../helpers/match';
 
 interface MatchPreviewProps {
   matchKey: string;
@@ -23,6 +24,7 @@ export const MatchPreview: React.FC<RouteComponentProps<MatchPreviewProps>> = (p
 
   return (
     <div className="MatchPreview">
+    <h1>{`${getCompLevelTitle(matchesContext[props.match.params.matchKey].comp_level)} ${matchesContext[props.match.params.matchKey].match_number}`}</h1>
       <ul className='list red'>
         {getTeams(matchesContext[props.match.params.matchKey].alliances.red.team_keys)}
       </ul>
