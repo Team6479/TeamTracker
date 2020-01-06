@@ -1,8 +1,8 @@
 import { configPromise, getParsedState } from './configParser';
-import { Elements, Teams, FilterDisplay, Match } from './types';
+import { Elements, Teams, FilterDisplay, Match, Matches } from './types';
 
 export interface ParsedState {
-  currentMatch: Match;
+  matches: Matches;
   elements: Elements;
   teams: Teams;
   filters: Array<FilterDisplay>;
@@ -14,9 +14,9 @@ export interface ParsedState {
 export class StateUpdater {
   private updateInterval?: NodeJS.Timeout;
   private updater?: Promise<void>;
-  private lastMatchIndex: number = 0;
   private updaterCompleted: boolean = true;
   private firstUpdate: boolean = true;
+  private matchLastModified: string = "";
 
   /**
    * @param onUpdate A function to be called on state update. It will be passed `currentMatch, elements, teams, and filters` as an object.
@@ -39,31 +39,59 @@ export class StateUpdater {
     }, 30000);
   }
 
-  private spawnUpdater(setUpdaterCompleted: (value: boolean) => void, setFirstUpdate: (value: boolean) => void) {
+  private spawnUpdater(setUpdaterCompleted: (value: boolean) => void, setFirstUpdate: (value: boolean) => void): void {
     const spawn = async () => {
-      const [blueallianceInstance, , , ,] = await configPromise;
-      const matches: Array<Match> = await blueallianceInstance.get('matches').then((response) => response.data);
-      for (const match of matches.slice(this.lastMatchIndex)) {
-        let matchIndex: number = matches.indexOf(match)
-        if (match.post_result_time > 0
-            && (match.alliances.red.team_keys.includes("frc6479") || match.alliances.blue.team_keys.includes("frc6479"))
-            && this.lastMatchIndex !== matchIndex) {
-          const [elements, teams, filters] = await getParsedState();
-          this.lastMatchIndex = matchIndex;
-          this.onUpdate({
-            currentMatch: match,
-            elements: elements,
-            teams: teams,
-            filters: filters
-          });
+      const matches: Matches | undefined = await (async () => {
+        const [blueallianceInstance, , , ,] = await configPromise;
+        var matches_array: Array<Match> = []
+        try {
+          matches_array = await blueallianceInstance.get('matches', {headers: {"If-Modified-Since": this.matchLastModified}})
+            .then((response) => {
+              this.matchLastModified = response.headers["last-modified"];
+              return response.data
+            });
+        } catch {
+          return;
+        }
+
+        return matches_array.reduce<Matches>((matches: Matches, match) => {
+          matches[match.key] = match;
+          return matches;
+        }, {});
+      })();
+
+      if (matches === undefined) {
+        console.debug("No updates to state required...")
+        return;
+      }
+
+      var [elements, teams, filters] = await getParsedState()
+
+      for (const matchKey of Object.keys(matches)) {
+        const match = matches[matchKey]
+        const teamKeys = [...match.alliances.blue.team_keys, ...match.alliances.red.team_keys]
+        for (const teamKey of teamKeys) {
+          const teamNum = parseInt(teamKey.substring(3));  // substring(3) strips out the 'frc' prefix in the key
+          const team = teams[teamNum];
+          if (!Object.keys(team.displays).includes("matches")) {
+            team.displays["matches"] = []
+          }
+          team.displays["matches"].push(match);
         }
       }
+
+      this.onUpdate({
+        matches: matches,
+        elements: elements,
+        teams: teams,
+        filters: filters
+      });
       console.debug("Updater Completed!");
     }
 
     if (this.updaterCompleted) {
       console.debug(`Updater Spawned at: ${Date.now()}`);
-      setUpdaterCompleted(false)
+      setUpdaterCompleted(false);
       this.updater = spawn().then(() => { setUpdaterCompleted(true) });
 
       if (this.firstUpdate) {
@@ -71,9 +99,8 @@ export class StateUpdater {
         setFirstUpdate(false);
       }
     } else {
-      console.debug(`Previous Update has yet to finish: ${Date.now()}`)
+      console.debug(`Previous Update has yet to finish: ${Date.now()}`);
     }
-
   }
 
   /**

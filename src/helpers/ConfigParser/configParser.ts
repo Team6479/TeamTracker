@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { GraphDisplay, ListDisplay, TableDisplay, MainConfig, YearConfig, EventConfig, Elements, Teams, Team, FilterDisplay } from './types';
+import { GraphDisplay, ListDisplay, TableDisplay, MainConfig, YearConfig, EventConfig, Elements, Teams, Team, FilterDisplay, TableFooterDisplay } from './types';
 import { ActionIndex } from './ActionIndex';
 import { DataSheet } from './DataSheet';
 
@@ -16,48 +16,48 @@ async function getLatestCommit(): Promise<string> {
   return response.data.sha;
 }
 
-function injectActionScript(commit: string, mainConfig: MainConfig, actionIndex?: ActionIndex): Promise<ActionIndex> {
+function injectActionScript(commit: string, mainConfig: MainConfig): Promise<Array<Function>> {
   var actionsScript = document.createElement('script');
-  var actionsScriptLoad = new Promise<ActionIndex>((resolve) => {
+  var actionsScriptLoad = new Promise<Array<Function>>((resolve) => {
     actionsScript.onload = () => {
-      if (actionIndex ===  undefined) {
-        actionIndex = new ActionIndex();
-      }
       // @ts-ignore window.actions is loaded at runtime
-      for (let item of Object.values(window.actions)) {
-        if (typeof item === "function") {
-          actionIndex.registerAction(item);
-        }
-      }
-      resolve(actionIndex);
+      resolve(Object.values(window.actions).filter((action) => typeof action === "function"));
     }
-  })
+  });
   actionsScript.src = `https://cdn.jsdelivr.net/gh/iboyperson/TeamTracker-TestConfig@${commit}/${mainConfig.yearsDir}/${mainConfig.defaultGameYear}/actions.min.js`;
+  actionsScript.async = true;
   document.head.appendChild(actionsScript);
 
   return actionsScriptLoad;
 }
 
-function injectGlobalActionScript(commit: string, actionIndex?: ActionIndex): Promise<ActionIndex> {
+function injectGlobalActionScript(commit: string): Promise<Array<Function>> {
   var actionsScript = document.createElement('script');
-  var actionsScriptLoad = new Promise<ActionIndex>((resolve) => {
+  var actionsScriptLoad = new Promise<Array<Function>>((resolve) => {
     actionsScript.onload = () => {
-      if (actionIndex ===  undefined) {
-        actionIndex = new ActionIndex();
-      }
       // @ts-ignore window.actions is loaded at runtime
-      for (let item of Object.values(window.globalActions)) {
-        if (typeof item === "function") {
-          actionIndex.registerAction(item);
-        }
-      }
-      resolve(actionIndex);
+      resolve(Object.values(window.globalActions).filter((action) => typeof action === "function"));
     }
-  })
+  });
   actionsScript.src = `https://cdn.jsdelivr.net/gh/iboyperson/TeamTracker-TestConfig@${commit}/globalActions.min.js`;
+  actionsScript.async = true;
   document.head.appendChild(actionsScript);
 
   return actionsScriptLoad;
+}
+
+async function getActionIndex(commit: string, mainConfig: MainConfig): Promise<ActionIndex> {
+  var actionIndex: ActionIndex = new ActionIndex();
+
+  const [globalActions, actions] = await Promise.all([
+    injectGlobalActionScript(commit),
+    injectActionScript(commit, mainConfig)
+  ]);
+
+  globalActions.map(action => actionIndex.registerAction(action));
+  actions.map(action => actionIndex.registerAction(action));
+
+  return actionIndex;
 }
 
 function getRawgitInstance(commit: string): AxiosInstance {
@@ -115,18 +115,19 @@ export const configPromise: Promise<[AxiosInstance, YearConfig, EventConfig, Act
   const rawgitInstance = getRawgitInstance(commit);
   const mainConfig = await getMainConfig(rawgitInstance);
   const blueallianceInstance = getBlueallianceInstance(mainConfig);
-
+  console.debug("Fetchng Config Data...")
   const [yearConfig, eventConfig, actionIndex, teams] = await Promise.all<YearConfig, EventConfig, ActionIndex, Array<any>>([
     getYearConfig(rawgitInstance, mainConfig),
     getEventConfig(rawgitInstance, mainConfig),
-    injectActionScript(commit, mainConfig, await injectGlobalActionScript(commit)),
+    getActionIndex(commit, mainConfig),
     blueallianceInstance.get<Array<any>>('teams/simple').then(response => response.data)
   ])
 
   return [blueallianceInstance, yearConfig, eventConfig, actionIndex, teams]
 })()
 
-export async function getElements(elements?: Elements): Promise<Elements> {
+export async function getElements(): Promise<Elements> {
+  console.debug("Getting Elements...")
   const [blueallianceInstance, yearConfig, eventConfig, actionIndex, teamsInfo] = await configPromise;
 
   let [rawTeamRankings, teamOprs, sheet] = await Promise.all([
@@ -136,20 +137,19 @@ export async function getElements(elements?: Elements): Promise<Elements> {
     getGoogleSheet(eventConfig)
   ])
 
-  if (elements === undefined) {
-    elements = {};
+
+  // We start with these Ids as we will be arbitrarily inserting Blue Alliance data as elements later
+  var elements: Elements = {
+    blueallianceRank: {},
+    blueallianceOPR: {},
+    blueallianceDPR: {}
   }
 
-  // Add Ids for arbitrarily inserting Blue Alliance data as elements
-  elements["blueallianceRank"] = {};
-  elements["blueallianceOPR"] = {};
-  elements["blueallianceDPR"] = {};
-
   // Process Blue Alliance ranking for easier access
-  var teamRankings: { [team_key: string]: number } = {};
-  rawTeamRankings.forEach(team => {
-    teamRankings[team.team_key] = team.rank
-  });
+  var teamRankings: { [team_key: string]: number } = rawTeamRankings.reduce<{ [team_key: string]: number }>((teamRankings, team) => {
+    teamRankings[team.team_key] = team.rank;
+    return teamRankings;
+  }, {});
 
   for (let team of teamsInfo) {
     let teamNum = team.team_number;
@@ -159,19 +159,30 @@ export async function getElements(elements?: Elements): Promise<Elements> {
     elements["blueallianceOPR"][teamNum] = Math.round(teamOprs.oprs[team.key]);
     elements["blueallianceDPR"][teamNum] = Math.round(teamOprs.dprs[team.key]);
 
-    for (let element of yearConfig.elements) {
-      if (elements[element.id] === undefined) {
-        elements[element.id] = {};
+    var elementPromises = yearConfig.elements.map((element) => {
+      return (async () => {
+        return {
+          element: element,
+          actionResult: actionIndex.runAction(element.action, sheet, element.tableColumn, teamNum, element.type)
+        }
+      })();
+    })
+
+    elements = await (await Promise.all(elementPromises)).reduce((elements, element) => {
+      if (elements[element.element.id] === undefined) {
+        elements[element.element.id] = {};
       }
 
-      elements[element.id][teamNum] = actionIndex.runAction(element.action, sheet, element.tableColumn, teamNum, element.type);
-    }
+      elements[element.element.id][teamNum] = element.actionResult;
+      return elements
+    }, elements)
   }
 
-  return elements
+  return elements;
 }
 
 export async function getTeams(elements: Elements): Promise<Teams> {
+  console.debug("Getting Teams...")
   const [, yearConfig,,, teamsInfo] = await configPromise;
 
   var teams: Teams = {};
@@ -184,6 +195,7 @@ export async function getTeams(elements: Elements): Promise<Teams> {
         graph: new Array<GraphDisplay>(),
         list: new Array<ListDisplay>(),
         table: new Array<TableDisplay>(),
+        tableFooter: new Array<TableFooterDisplay>()
       }
     }
 
@@ -212,15 +224,16 @@ export async function getTeams(elements: Elements): Promise<Teams> {
       }
     })
 
-    // We do this as filter needs to be handled differently
+    // Filter out displays that need to be handled differently
     let displays = Object.keys(yearConfig.displays).filter((value) => value !== "filter");
+
     for (let display of displays) {
       for (let element of yearConfig.displays[display]) {
         data.displays[display].push({
           title: element.title,
           _value: new IdReference(elements, element.id, teamNum),
           get value() {
-            return this._value.get()
+            return this._value.get();
           }
         })
       }
@@ -233,12 +246,8 @@ export async function getTeams(elements: Elements): Promise<Teams> {
 }
 
 
-export async function getParsedState(elements?: Elements): Promise<[Elements, Teams, Array<FilterDisplay>]> {
-  if (elements === undefined) {
-    elements = await getElements();
-  } else {
-    await getElements(elements);
-  }
+export async function getParsedState(): Promise<[Elements, Teams, Array<FilterDisplay>]> {
+  const elements = await getElements();
   const teams = await getTeams(elements);
 
   const [, yearConfig,,,] = await configPromise;

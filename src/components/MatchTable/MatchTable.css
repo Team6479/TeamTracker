@@ -1,0 +1,71 @@
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+table.MatchTable {
+  padding: 3px 0;
+  margin: 0 0 1em 0;
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+}
+
+table.MatchTable tr.key {
+  background-color: #eee;
+}
+
+table.MatchTable tr {
+  padding: 3px 0;
+}
+
+.visible-lg {
+  display: none !important;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+tr {
+  display: table-row;
+  vertical-align: inherit;
+  border-color: inherit;
+}
+
+thead {
+  display: table-header-group;
+  vertical-align: middle;
+  border-color: inherit;
+}
+
+table.MatchTable>thead>tr>th,
+table.MatchTable>tbody>tr>th,
+table.MatchTable>tfoot>tr>th,
+table.MatchTable>thead>tr>td,
+table.MatchTable>tbody>tr>td,
+table.MatchTable>tfoot>tr>td {
+  border: 1px solid #ddd;
+}
+
+table.MatchTable>tbody>tr>th,
+table.MatchTable>tfoot>tr>th,
+table.MatchTable>thead>tr>td,
+table.MatchTable>tbody>tr>td,
+table.MatchTable>tfoot>tr>td {
+  padding: 5px;
+  line-height: 1.42857143;
+  vertical-align: middle;
+  border-top: 1px solid #ddd;
+}
+
+table.MatchTable th {
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle !important;
+  padding: 3px;
+}
