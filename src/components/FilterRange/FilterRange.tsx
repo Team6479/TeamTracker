@@ -7,7 +7,7 @@ interface FilterRangeProps {
   onChange: Function;
 }
 
-export const FilterRange: React.FC<FilterRangeProps> = (props) => {
+export const FilterRange = (props: FilterRangeProps) => {
   const filter = props.filter;
   const values = [filter.localMin, filter.localMax]
 

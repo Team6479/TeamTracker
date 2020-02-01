@@ -84,7 +84,7 @@ function renderTbody(matches: Array<Match>) {
   return tbody;
 }
 
-export const MatchTable: React.FC<MatchTableProps> = (props) => {
+export const MatchTable = (props: MatchTableProps) => {
   return (
     <table className="MatchTable">
       <thead>

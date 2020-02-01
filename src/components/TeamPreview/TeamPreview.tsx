@@ -9,7 +9,7 @@ interface TeamPreviewProps {
   teamNum: number
 }
 
-export const TeamPreviw: React.FC<TeamPreviewProps> = (props): JSX.Element => {
+export const TeamPreviw = (props: TeamPreviewProps): JSX.Element => {
   const context: {elements: Elements, teams: Teams} = useContext(PrimaryContext);
   let team = context.teams[props.teamNum];
   let graphDisplay = team.displays.graph

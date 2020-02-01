@@ -6,7 +6,7 @@ interface TeamGraphProps {
   displays: Array<GraphDisplay>;
 }
 
-export const TeamGraph: React.FC<TeamGraphProps> = (props): JSX.Element => {
+export const TeamGraph = (props: TeamGraphProps): JSX.Element => {
   var data = {
     labels: [] as string[] ,
     datasets: [
