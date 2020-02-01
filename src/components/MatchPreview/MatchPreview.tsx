@@ -10,7 +10,7 @@ interface MatchPreviewProps {
   matchKey: string;
 }
 
-export const MatchPreview: React.FC<RouteComponentProps<MatchPreviewProps>> = (props) => {
+export const MatchPreview = (props: RouteComponentProps<MatchPreviewProps>) => {
   const matchesContext: Matches = useContext(MatchesContext);
 
   function getTeams(team_keys: Array<string>): Array<JSX.Element> {

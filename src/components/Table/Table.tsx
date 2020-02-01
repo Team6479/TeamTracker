@@ -10,7 +10,7 @@ interface TableProps {
   height: number;
 }
 
-export const Table: React.FC<TableProps> = (props) => {
+export const Table = (props: TableProps) => {
   const {
     getTableProps,
     getTableBodyProps,

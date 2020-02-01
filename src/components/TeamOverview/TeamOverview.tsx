@@ -10,7 +10,7 @@ interface TeamOverviewProps {
   teamNum: string;
 }
 
-export const TeamOverview: React.FC<RouteComponentProps<TeamOverviewProps>> = (props): JSX.Element => {
+export const TeamOverview = (props: RouteComponentProps<TeamOverviewProps>): JSX.Element => {
   const teamNum = parseInt(props.match.params.teamNum);
 
   const primaryContext: {elements: Elements, teams: Teams} = useContext(PrimaryContext);

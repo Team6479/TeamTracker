@@ -9,7 +9,7 @@ interface TeamFiltersProps {
   onChange: Function;
 }
 
-export const TeamFilters: React.FC<TeamFiltersProps> = (props): JSX.Element => {
+export const TeamFilters = (props: TeamFiltersProps): JSX.Element => {
 
   var onChange = (filter: FilterDisplay, values: Array<number>) => {
     var filters: Array<FilterDisplay> = cloneDeep(props.filters)
