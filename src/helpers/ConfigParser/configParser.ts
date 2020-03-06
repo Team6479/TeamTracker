@@ -7,7 +7,7 @@ export class IdReference<T> {
   constructor(private object: Elements, private id: string, private team: number) {}
 
   get(): T {
-     return this.object[this.id][this.team];
+    return this.object[this.id][this.team];
   }
 }
 
@@ -183,7 +183,6 @@ export async function getElements(): Promise<Elements> {
     }, elements)
   }
 
-  console.log(elements)
   return elements;
 }
 
