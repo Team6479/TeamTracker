@@ -10,7 +10,7 @@ export class DataSheet {
   private teamIndexes: {[team: number]: Array<number>} = {};
   private teamEntriesPerColumn: TeamEntriesPerColumn = {};
 
-  constructor(private sheet: Array<Array<any>>) {}
+  constructor(private sheet: Array<Array<any>>, private teamColumn: number) {}
 
   public getEntriesFromColumn<T>(column: number, team: number, type: string): Array<T> {
     try {
@@ -50,7 +50,7 @@ export class DataSheet {
 
   private allIndexesOfTeam(team: number): Array<number> {
     if (this.teamIndexes[team] === undefined) {
-      var array = this.sheet[0];
+      var array = this.sheet[this.teamColumn];
       var indexes: Array<number> = [];
       for(let i = 0; i < array.length; i++) {
         if (array[i] === team)

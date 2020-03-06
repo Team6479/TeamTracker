@@ -94,7 +94,7 @@ export interface Displays {
 export interface YearConfig {
   elements: Array<{
     id: string;
-    tableColumn: number;
+    tableColumn: Array<number>;
     type: string;
     action: string;
   }>;
@@ -104,6 +104,7 @@ export interface YearConfig {
 export type SheetConfig = {
   spreadsheetId: string;
   range?: string;
+  teamColumn: number;
 }
 
 export interface EventConfig {

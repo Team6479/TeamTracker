@@ -105,7 +105,7 @@ async function getGoogleSheet(eventConfig: EventConfig): Promise<DataSheet> {
             valueRenderOption: 'UNFORMATTED_VALUE'
           })
         })
-        .then((response: {result: {values: Array<Array<any>>}}) => resolve(new DataSheet(response.result.values)))
+        .then((response: {result: {values: Array<Array<any>>}}) => resolve(new DataSheet(response.result.values, eventConfig.match.teamColumn)))
     })
   })
 }
@@ -156,8 +156,13 @@ export async function getElements(): Promise<Elements> {
 
     // Arbitrarily insert Blue Alliance data as elements
     elements["blueallianceRank"][teamNum] = teamRankings[team.key];
-    elements["blueallianceOPR"][teamNum] = Math.round(teamOprs.oprs[team.key]);
-    elements["blueallianceDPR"][teamNum] = Math.round(teamOprs.dprs[team.key]);
+    try {
+      elements["blueallianceOPR"][teamNum] = Math.round(teamOprs.oprs[team.key]);
+      elements["blueallianceDPR"][teamNum] = Math.round(teamOprs.dprs[team.key]);
+    } catch {
+      elements["blueallianceOPR"][teamNum] = 0;
+      elements["blueallianceDPR"][teamNum] = 0;
+    }
 
     var elementPromises = yearConfig.elements.map((element) => {
       return (async () => {
@@ -178,6 +183,7 @@ export async function getElements(): Promise<Elements> {
     }, elements)
   }
 
+  console.log(elements)
   return elements;
 }
 

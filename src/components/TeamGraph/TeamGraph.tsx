@@ -11,7 +11,7 @@ export const TeamGraph = (props: TeamGraphProps): JSX.Element => {
     labels: [] as string[] ,
     datasets: [
       {
-        label: 'Score',
+        label: 'Accuracy',
         backgroundColor: 'rgb(255, 99, 132)',
         borderColor: 'rgb(255, 99, 132)',
         data: [] as number[]
@@ -37,7 +37,7 @@ export const TeamGraph = (props: TeamGraphProps): JSX.Element => {
                 // @ts-ignore
                 beginAtZero: true,
                 min: 0,
-                max: 8,
+                max: 100,
               },
             },
           ],
