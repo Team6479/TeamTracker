@@ -37,7 +37,7 @@ export const TeamGraph = (props: TeamGraphProps): JSX.Element => {
                 // @ts-ignore
                 beginAtZero: true,
                 min: 0,
-                max: 30,
+                max: 16,
               },
             },
           ],
