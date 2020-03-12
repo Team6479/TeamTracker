@@ -16,9 +16,7 @@ export const TeamFilters = (props: TeamFiltersProps): JSX.Element => {
     filters[props.filters.indexOf(filter)].localMin = values[0];
     filters[props.filters.indexOf(filter)].localMax = values[1];
 
-    props.onChange({
-      filters: filters
-    })
+    props.onChange(filters)
   }
 
   var filterElements = []
