@@ -7,7 +7,7 @@ interface FilterRangeProps {
   onChange: Function;
 }
 
-export const FilterRange = (props: FilterRangeProps) => {
+export const FilterRange = (props: FilterRangeProps): JSX.Element => {
   const filter = props.filter;
   const values = [filter.localMin, filter.localMax]
 

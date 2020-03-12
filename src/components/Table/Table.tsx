@@ -10,7 +10,7 @@ interface TableProps {
   height: number;
 }
 
-export const Table = (props: TableProps) => {
+export const Table = (props: TableProps): JSX.Element => {
   const {
     getTableProps,
     getTableBodyProps,

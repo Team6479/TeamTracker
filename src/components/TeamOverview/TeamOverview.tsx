@@ -4,7 +4,7 @@ import { Teams, Elements } from '../../helpers/ConfigParser/types';
 import { PrimaryContext} from '../contexts';
 import { MatchTable } from '../MatchTable';
 import './TeamOverview.css'
-import { SheetTable } from '../SheetTable/SheetTable';
+import { SheetTable } from '../SheetTable';
 
 interface TeamOverviewProps {
   teamNum: string;

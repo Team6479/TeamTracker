@@ -10,17 +10,17 @@ interface MatchPreviewProps {
   matchKey: string;
 }
 
-export const MatchPreview = (props: RouteComponentProps<MatchPreviewProps>) => {
-  const matchesContext: Matches = useContext(MatchesContext);
-
-  function getTeams(team_keys: Array<string>): Array<JSX.Element> {
-    var teams = [];
-    for (const team of team_keys) {
-      const teamNum = parseInt(team.substring(3));  // substring(3) strips out the 'frc' prefix in the key
-      teams.push((<TeamPreviw teamNum={teamNum} key={teamNum}/>));
-    }
-    return teams;
+function getTeams(team_keys: Array<string>): Array<JSX.Element> {
+  var teams = [];
+  for (const team of team_keys) {
+    const teamNum = parseInt(team.substring(3));  // substring(3) strips out the 'frc' prefix in the key
+    teams.push((<TeamPreviw teamNum={teamNum} key={teamNum}/>));
   }
+  return teams;
+}
+
+export const MatchPreview = (props: RouteComponentProps<MatchPreviewProps>): JSX.Element => {
+  const matchesContext: Matches = useContext(MatchesContext);
 
   return (
     <div className="MatchPreview">

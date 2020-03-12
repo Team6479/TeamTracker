@@ -6,7 +6,7 @@ interface SheetTableProps {
   teamNum: number
 }
 
-export const SheetTable = (props: SheetTableProps) => {
+export const SheetTable = (props: SheetTableProps): JSX.Element => {
   const primaryContext = useContext(PrimaryContext);
   const team = primaryContext.teams[props.teamNum];
 

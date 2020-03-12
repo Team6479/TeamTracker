@@ -9,7 +9,7 @@ interface MatchTableProps {
   matches: Array<Match>;
 }
 
-function getMatchName(key: string, compLevel: string) {
+function getMatchName(key: string, compLevel: string): string {
   var title = getCompLevelTitle(compLevel, true);
   var subKey = key.substring(key.indexOf("_") + 1 + compLevel.length);  // Here we strip away the event key and comp_level
   var subLevelCheck = subKey.indexOf("m");
@@ -21,7 +21,7 @@ function getMatchName(key: string, compLevel: string) {
   return title;
 }
 
-function renderRow(match: Match) {
+function renderRow(match: Match): JSX.Element {
   const matchNameContainer = (
     <div className="match-name-container">
       <div className="match-name">
@@ -59,7 +59,7 @@ function renderRow(match: Match) {
   )
 }
 
-function renderTbody(matches: Array<Match>) {
+function renderTbody(matches: Array<Match>): Array<JSX.Element> {
   const tbody: Array<JSX.Element> = []
   var prevCompLevel = "";
 
@@ -84,7 +84,7 @@ function renderTbody(matches: Array<Match>) {
   return tbody;
 }
 
-export const MatchTable = (props: MatchTableProps) => {
+export const MatchTable = (props: MatchTableProps): JSX.Element => {
   return (
     <table className="MatchTable">
       <thead>
